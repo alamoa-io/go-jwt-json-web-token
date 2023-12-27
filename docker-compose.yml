@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:latest
+    container_name: jwt_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - api-network
+
+  redis-commander:
+    container_name: jwt_redis_commander
+    image: rediscommander/redis-commander:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge
