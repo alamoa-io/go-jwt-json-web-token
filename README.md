@@ -133,4 +133,4 @@ curl --location --request POST '0.0.0.0:8080/api/v1/logout' \
 
 ## Postman config
 
-![postman config](docs/json_web_token.postman_collection.json)
+[postman config](docs/json_web_token.postman_collection.json)
