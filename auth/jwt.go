@@ -29,7 +29,7 @@ const (
 var (
 	tokenSignKey *rsa.PrivateKey
 	// If you want to sign with a string instead of RSA
-	// tokenSignKey = []byte("verysecretkey")
+	// tokenSignKey = []byte("secretkey")
 	TokenVerifyKey        *rsa.PublicKey
 	refreshTokenSignKey   *rsa.PrivateKey
 	RefreshTokenVerifyKey *rsa.PublicKey
