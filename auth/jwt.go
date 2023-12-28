@@ -38,8 +38,8 @@ var (
 func init() {
 	signBytes, _ := os.ReadFile(tokenPrivateKey)
 	tokenSignKey, _ = jwt.ParseRSAPrivateKeyFromPEM(signBytes)
-	verifyBytes, _ := os.ReadFile(TokenPublicKey)
-	TokenVerifyKey, _ = jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
+	tokenVerifyBytes, _ := os.ReadFile(TokenPublicKey)
+	TokenVerifyKey, _ = jwt.ParseRSAPublicKeyFromPEM(tokenVerifyBytes)
 	refreshSignBytes, _ := os.ReadFile(refreshTokenPrivateKey)
 	refreshTokenSignKey, _ = jwt.ParseRSAPrivateKeyFromPEM(refreshSignBytes)
 	refreshTokenVerifyBytes, _ := os.ReadFile(RefreshTokenPublicKey)
