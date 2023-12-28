@@ -59,6 +59,7 @@ func NewClaim(email string) *Claim {
 
 func (c *Claim) GenerateToken() (token string, err error) {
 	claims := jwt.StandardClaims{
+		Id:        uuid.New().String(),
 		Issuer:    Issuer,
 		Subject:   Subject,
 		Audience:  Audience,
@@ -70,7 +71,7 @@ func (c *Claim) GenerateToken() (token string, err error) {
 	}
 
 	// If you want to sign with a string with HS256 instead of RSA
-	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaims)
+	// generateToken := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	generatedToken := jwt.NewWithClaims(jwt.SigningMethodRS256, c)
 	token, err = generatedToken.SignedString(tokenSignKey)
 	if err != nil {
@@ -93,7 +94,7 @@ func (c *Claim) GenerateRefreshToken() (token string, err error) {
 	}
 
 	// If you want to sign with a string with HS256 instead of RSA
-	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	// refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodRS256, c)
 	token, err = refreshToken.SignedString(refreshTokenSignKey)
 	if err != nil {
@@ -115,10 +116,10 @@ func (c *Claim) UpdateRefreshToken() (token string, err error) {
 	c.IssuedAt = time.Now().Local().Unix()
 	// If you want to log in again after a certain period of time from when you first logged in, use the old refresh
 	// token time. If you want to newly extend expire, set it as follows.
-	// claim.ExpiresAt = time.Now().Local().Unix()
+	// c.ExpiresAt = time.Now().Local().Add(RefreshTokenExpiration).Unix()
 
 	// If you want to sign with a string instead of RSA
-	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, updateClaims)
+	// updatedToken := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	updatedToken := jwt.NewWithClaims(jwt.SigningMethodRS256, c)
 	token, err = updatedToken.SignedString(refreshTokenSignKey)
 	if err != nil {

@@ -48,8 +48,8 @@ func RefreshToken(c *gin.Context) {
 		c.JSON(400, gin.H{"Error": err.Error()})
 		return
 	}
-	refreshCustomToken := &auth.Claim{Email: claims.Email}
-	token, err := refreshCustomToken.GenerateToken()
+	tokenClaim := &auth.Claim{Email: claims.Email}
+	token, err := tokenClaim.GenerateToken()
 	if err != nil {
 		c.JSON(400, gin.H{"Error": err.Error()})
 		return
