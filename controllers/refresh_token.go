@@ -10,12 +10,6 @@ import (
 )
 
 func RefreshToken(c *gin.Context) {
-	/*
-		It is up for debate whether to send the refreshToken in the header or put it in the body. Either is fine since
-		the data is sent together, but it is not defined in JWT. It is also possible to send the token as a Bear and the
-		refreshToken as a Body. In terms of security, both the header and body are sent together, so they are the same.
-		However, the header is processed first, so if you want to load it quickly, you can use the header.
-	*/
 	refreshTokenRequest := &struct {
 		RefreshToken string `json:"refreshToken"`
 	}{}

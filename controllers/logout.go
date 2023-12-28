@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 
@@ -11,9 +12,6 @@ import (
 
 func Logout(c *gin.Context) {
 	revokeTokenRequest := &struct {
-		// Since tokens expire quickly, it is sufficient to reject only refresh tokens that do not grant tokens.
-		// In that case, it may be a good idea to make it unnecessary for the client to send a token.
-		Token        string `json:"token"`
 		RefreshToken string `json:"refreshToken"`
 	}{}
 	if err := c.ShouldBindJSON(&revokeTokenRequest); err != nil {
@@ -21,15 +19,25 @@ func Logout(c *gin.Context) {
 		return
 	}
 
-	tokenClaims, err := auth.ValidateToken(revokeTokenRequest.Token, auth.TokenVerifyKey)
-	log.Print(err)
-	if tokenClaims != nil {
-		tokenClaims.SetBlackListToken()
-	}
 	refreshTokenClaims, err := auth.ValidateToken(revokeTokenRequest.RefreshToken, auth.RefreshTokenVerifyKey)
 	log.Print(err)
 	if refreshTokenClaims != nil {
 		refreshTokenClaims.SetBlackListToken()
+	}
+
+	// This code is duplicated with middlewares, so please move the common code elsewhere.
+	authorizationHeader := c.Request.Header.Get("Authorization")
+	bearerToken := strings.Split(authorizationHeader, "Bearer ")
+	if len(bearerToken) != 2 {
+		c.JSON(400, "invalid bearer token")
+		c.Abort()
+		return
+	}
+	token := strings.TrimSpace(bearerToken[1])
+	tokenClaims, err := auth.ValidateToken(token, auth.TokenVerifyKey)
+	log.Print(err)
+	if tokenClaims != nil {
+		tokenClaims.SetBlackListToken()
 	}
 
 	c.JSON(200, gin.H{"Message": "logout success"})
