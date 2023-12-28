@@ -137,6 +137,8 @@ curl --location --request POST '0.0.0.0:8080/api/v1/logout' \
 
 ## Refresh Token Expiration
 
+Decide how to expiration the refresh token depending on the application situation.
+
 ### Fixing the token expiration day
 
 When fixing the expiration date of refresh token, do not change the expiration of refresh token. 
