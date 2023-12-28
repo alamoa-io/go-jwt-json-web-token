@@ -29,7 +29,7 @@ const (
 var (
 	tokenSignKey *rsa.PrivateKey
 	// If you want to sign with a string instead of RSA
-	// tokenSignKey = []byte("verysecretkey")
+	// tokenSignKey = []byte("secretkey")
 	TokenVerifyKey        *rsa.PublicKey
 	refreshTokenSignKey   *rsa.PrivateKey
 	RefreshTokenVerifyKey *rsa.PublicKey
@@ -115,7 +115,7 @@ func (c *Claim) UpdateRefreshToken() (token string, err error) {
 	c.IssuedAt = time.Now().Local().Unix()
 	// If you want to log in again after a certain period of time from when you first logged in, use the old refresh
 	// token time. If you want to newly extend expire, set it as follows.
-	// customClaim.ExpiresAt = time.Now().Local().Unix()
+	// claim.ExpiresAt = time.Now().Local().Unix()
 
 	// If you want to sign with a string instead of RSA
 	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, updateClaims)

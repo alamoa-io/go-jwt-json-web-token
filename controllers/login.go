@@ -29,8 +29,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	customClaim := auth.NewClaim(user.Email)
-	token, err := customClaim.GenerateToken()
+	claim := auth.NewClaim(user.Email)
+	token, err := claim.GenerateToken()
 	if err != nil {
 		c.JSON(500, gin.H{"Error": err.Error()})
 		return

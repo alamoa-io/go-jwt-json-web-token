@@ -133,4 +133,22 @@ curl --location --request POST '0.0.0.0:8080/api/v1/logout' \
 
 ## Postman config
 
-![postman config](docs/json_web_token.postman_collection.json)
+[postman config](docs/json_web_token.postman_collection.json)
+
+## Refresh Token Expiration
+
+Decide how to expiration the refresh token depending on the application situation.
+
+### Fixing the token expiration day
+
+When fixing the expiration date of refresh token, do not change the expiration of refresh token. 
+Below, the refresh token will always become invalid after one year and you will have to log in again.
+
+![Fixed Refresh Token](./docs/refresh_token1.png)
+
+### Extending the expiration day of the token
+
+The following will issue a refresh token with the same expiration length when the refresh token is updated. 
+It is also a good idea to add a block list function, since the refresh token is constantly updated if it is stolen.
+
+![Dynamic Refresh Token](./docs/refresh_token2.png)
